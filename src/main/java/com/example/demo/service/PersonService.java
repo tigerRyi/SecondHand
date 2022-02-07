@@ -27,8 +27,8 @@ public class PersonService {
     public List<Person> getAllPeople(){
         return personDao.selectAllPeople();
     }
-    public Optional<Person> getPersonById(UUID id){
-        return personDao.selectPersonById(id);
+    public Optional <Person> getPersonById(UUID id){
+        return (Optional<Person>) personDao.selectPersonById(id);
     }
     public int deletePerson(UUID id){
         return personDao.deletePersonById(id);

@@ -42,11 +42,27 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public int updatePersonById(UUID id, Person person) {
+
         return 0;
     }
 
     @Override
     public Optional<Person> selectPersonById(UUID id) {
-        return Optional.empty();
+        final String sql = "SELECT id, name FROM person";
+        List<Person> people = jdbcTemplate.query(sql, (resultSet, i) -> {
+            UUID di = UUID.fromString(resultSet.getString("id"));
+            String name = resultSet.getString("name");
+            return new Person(di, name);
+        });
+        Person a = new Person(UUID.randomUUID(), "Temp");
+        for (int i = 0; i < people.size(); i++){
+            if (people.get(i).getId().equals(id)){
+                Person p = new Person(people.get(i).getId(), people.get(i).getName());
+                a = p;
+                break;
+            }
+        }
+
+        return Optional.ofNullable(a);
     }
 }
