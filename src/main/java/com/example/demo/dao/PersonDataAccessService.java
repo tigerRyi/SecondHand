@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.regex.*;
 import java.util.Optional;
 import java.util.UUID;
 @Repository("postgres")
@@ -21,9 +22,18 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public int insertPerson(UUID id, Person person) {
-        String sql = "INSERT INTO person (id, name) VALUES (" + id + ", \"" + person.getName() + "\")";
-        jdbcTemplate.execute(sql);
-        return 0;
+        String pattern = "^[A-Za-z0-9]{1,20}+$";
+        boolean isMatch = Pattern.matches(pattern, person.getName());
+        System.out.println(isMatch);
+        if (!(isMatch)){
+            System.out.println("asdf");
+            return 1;
+        }else {
+            String sql = "INSERT INTO person (id, name) VALUES (\'" + id + "\', \'" + person.getName() + "\');";
+            System.out.println(sql);
+            jdbcTemplate.execute(sql);
+            return 0;
+        }
     }
 
     @Override
