@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.regex.*;
-import java.util.Optional;
 import java.util.UUID;
 @Repository("postgres")
 public class PersonDataAccessService implements PersonDao{
@@ -58,10 +57,12 @@ public class PersonDataAccessService implements PersonDao{
     }
 
     @Override
-    public Optional<Person> selectPersonById(UUID id) {
+    public Person selectPersonById(UUID id) {
         String sql = "SELECT id, \"name\" FROM \"person\" WHERE id=\'" + id + "\';";
-        Person p = jdbcTemplate.query(sql, new );
-        System.out.println(Optional.of(p));
-        return Optional.of(p);
+        List<Person> people = jdbcTemplate.query(sql, (resultSet, i) -> {
+            String name = resultSet.getString("name");
+            return new Person(id, name);
+        });
+        return people.get(0);
     }
 }
