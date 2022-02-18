@@ -22,7 +22,7 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public int insertPerson(UUID id, Person person) {
-        String pattern = "^[A-Za-z0-9]{1,20}+$";
+        String pattern = "^[A-Za-z0-9]{1,50}+$";
         boolean isMatch = Pattern.matches(pattern, person.getName());
         System.out.println(isMatch);
         if (!(isMatch)){
@@ -59,6 +59,9 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public Optional<Person> selectPersonById(UUID id) {
-        return Optional.of(new Person(UUID.randomUUID(), "ni"));
+        String sql = "SELECT id, \"name\" FROM \"person\" WHERE id=\'" + id + "\';";
+        Person p = jdbcTemplate.query(sql, new );
+        System.out.println(Optional.of(p));
+        return Optional.of(p);
     }
 }
