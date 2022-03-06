@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.*;
 import java.util.UUID;
 @Repository("postgres")
@@ -48,21 +49,29 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public int deletePersonById(UUID id) {
+        String sql = "DELETE FROM \"person\" WHERE id=\'" + id + "\';";
+        System.out.println(sql);
+        jdbcTemplate.execute(sql);
         return 0;
     }
 
     @Override
-    public int updatePersonById(UUID id, Person person) {
+    public int updatePersonById(UUID id, String name) {
+        System.out.println(name);
+        String sql = "UPDATE person SET name=\'" + name + "\' WHERE id=\'" + id + "\';";
+        System.out.println(sql);
+        jdbcTemplate.execute(sql);
         return 0;
     }
 
     @Override
-    public Person selectPersonById(UUID id) {
+    public Optional <Person> selectPersonById(UUID id) {
         String sql = "SELECT id, \"name\" FROM \"person\" WHERE id=\'" + id + "\';";
         List<Person> people = jdbcTemplate.query(sql, (resultSet, i) -> {
             String name = resultSet.getString("name");
             return new Person(id, name);
         });
-        return people.get(0);
+        Optional <Person> person = Optional.ofNullable(people.get(0));
+        return person;
     }
 }
