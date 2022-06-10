@@ -1,3 +1,5 @@
+server:
+  port : ${PORT}
 app:
   datasource:
     jdbc-url: jdbc:postgresql://ec2-54-157-16-196.compute-1.amazonaws.com:5432/d9vdf6eptjj4sm
