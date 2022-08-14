@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+    <head>
+    <title>AuctionSystem</title>
+    <meta name="author" content="">
+    <meta name="description" content="AuctionSystem">
+    <meta name="keywords" content="AuctionSystem">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="theme-color" content="#3d87ff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+    </head>
+
+    <body>
+        <p1 style = "width: 344px;height: 630px;font-family: PingFangSC-Regular;font-size: 90px;color: #D70000;letter-spacing: 0;font-weight: 400; position: fixed; top: 9.3%; bottom: 16.8%; height: auto; width: 23.9%; left: 16.7%; right: 59.4%;">ENTER YOUR DAMNIT STUPID NAME</p1>
+        <div style = "width: 1px;height: 375px;border: 1px solid rgba(151,151,151,1);position: fixed;top: 27.3%; bottom: 28.6%; left: 50%; right:49.9%"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <form id="myForm">
+        <input style="width: 559px;height: 148px;background: #848484;border: 1px solid rgba(151,151,151,1) ;position: fixed; top: 37.6%; bottom: 45.1%; right:5.3%; left: 55.8%" type="text" id="content" name="name">
+        </form>
+            
+        
+        <script type="text/javascript">
+            $("form#myForm").submit(function(event) {
+                event.preventDefault();
+                var formdata = document.getElementById('content').value;
+                var postform = {
+                    name: formdata
+                };
+                alert(JSON.stringify(postform))
+                var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+                httpRequest.open('POST', '/api/v1/person', true); //第二步：打开连接
+                httpRequest.setRequestHeader("Content-type","application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）var obj = { name: 'zhansgan', age: 18 };
+                httpRequest.send(JSON.stringify(postform));//发送请求 将json写入send中
+
+                httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+                    if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+                        var json = httpRequest.responseText;//获取到服务端返回的数据
+                        console.log(json);
+            };
+        }
+    });
+
+
+            function submiting(){
+                alert(JSON.stringify(postform))
+                /*var formData = JSON.stringify($("#myForm").serializeArray());
+                alert(JSON.stringify($("#myForm").serializeArray()))
+                alert
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/api/v1/person",
+                    data: formData,
+                    success: function(){},
+                    dataType: "json",
+                    contentType : "application/json"
+                });*/
+                /*var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+                httpRequest.open('POST', '/api/v1/person', true); //第二步：打开连接
+                httpRequest.setRequestHeader("Content-type","application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）var obj = { name: 'zhansgan', age: 18 };
+                httpRequest.send(JSON.stringify($("#myForm").serializeArray()));//发送请求 将json写入send中
+
+                httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+                    if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+                        var json = httpRequest.responseText;//获取到服务端返回的数据
+                        console.log(json); */
+            }
+
+
+        </script>
+
+
+    </body>
+    </html>
